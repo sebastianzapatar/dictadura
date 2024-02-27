@@ -1,4 +1,4 @@
-import { Column,Entity,PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, Column,Entity,PrimaryGeneratedColumn } from "typeorm";
 @Entity()
 export class Product {
     @PrimaryGeneratedColumn('uuid')
@@ -7,5 +7,9 @@ export class Product {
         unique:true
     })
     name:string;
-    
+    @BeforeInsert()
+    checkName(){
+        this.name = this.name.toUpperCase();
+    }
 }
+
