@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { ProductsModule } from './products/products.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [ConfigModule.forRoot(),TypeOrmModule.forRoot({
@@ -15,7 +16,7 @@ import { ProductsModule } from './products/products.module';
     password:process.env.DB_PASSWORD,
     autoLoadEntities:true,
     synchronize:true
-  }), ProductsModule],
+  }), ProductsModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
