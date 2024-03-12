@@ -5,6 +5,7 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { getUser } from './decorators/getuser.decorator';
 import { User } from './entities/auth.entity';
+import { UseRoleGuardGuard } from './guards/use-role-guard.guard';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -22,5 +23,10 @@ export class AuthController {
   mundo(@getUser() user:User){
     const {email,fullName,isActive}=user;
     return {email,fullName,isActive};
+  }
+  @Get("private2")
+  @UseGuards(AuthGuard(),UseRoleGuardGuard)
+  prueba2(@getUser() user:User){
+    return user;
   }
 }
