@@ -43,9 +43,9 @@ export class AuthService {
       const user=await this.userRepository.findOneBy({email});
       if(!user) throw new UnauthorizedException('User or password incorrect');
       const isValid=bcrypt.compareSync(password, user.password);
-
+      const {fullName}=user;
       if(!isValid) throw new UnauthorizedException('User or password incorrect');
-      const jwt=this.getJwtToken({email});
+      const jwt=this.getJwtToken({email,fullName});
       return {email,jwt};
     }
     catch(e){
