@@ -1,6 +1,6 @@
 import { MinLength } from "class-validator";
-import { BeforeInsert,Entity, PrimaryGeneratedColumn,Column } from "typeorm";
-
+import { BeforeInsert,Entity, PrimaryGeneratedColumn,Column, OneToMany } from "typeorm";
+import { Product } from "src/products/entities/product.entity";
 @Entity('users')
 export class User {
 
@@ -32,8 +32,14 @@ export class User {
     })
     @MinLength(1)
     roles:string[]
+    @OneToMany(
+        ()=>Product,
+        (product)=>product.user
+    )
+    product:Product;
     @BeforeInsert()
     checkEmail(){
         this.email = this.email.toLocaleLowerCase();
     }
+
 }

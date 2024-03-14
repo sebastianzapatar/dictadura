@@ -4,6 +4,8 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { UseRoleGuardGuard } from 'src/auth/guards/use-role-guard.guard';
+import { getUser } from 'src/auth/decorators/getuser.decorator';
+import { User } from 'src/auth/entities/auth.entity';
 
 @Controller('products')
 export class ProductsController {
@@ -11,9 +13,10 @@ export class ProductsController {
     ) {}
 
   @Post()
-  @UseGuards(AuthGuard())
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
+  @UseGuards(AuthGuard(),UseRoleGuardGuard)
+  create(@getUser() user:User,
+  @Body() createProductDto: CreateProductDto) {
+    return this.productsService.create(createProductDto,user);
   }
 
   @Get()
